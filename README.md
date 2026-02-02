@@ -23,7 +23,7 @@ keycloakClient = "1.0.0"
 serializationJson = "1.10.0"
 
 [libraries]  
-keycloak-client = { module = "klsoft.kotlin.multiplatform:keycloak-client", version.ref = "keycloakClient"}
+keycloak-client = { module = "io.github.klsoft-mobile.kotlin.multiplatform:keycloak-client", version.ref = "keycloakClient"}
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationJson" }
 
 implementation(libs.keycloak.client)
