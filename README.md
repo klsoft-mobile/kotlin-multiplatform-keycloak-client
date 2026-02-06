@@ -19,7 +19,7 @@ See also:
 
 ```kotlin
 [versions]  
-keycloakClient = "1.0.1"
+keycloakClient = "1.0.2"
 serializationJson = "1.10.0"
 
 [libraries]  
@@ -70,7 +70,7 @@ class AuthRepositoryImpl @Inject constructor(private val keycloakClient: Keycloa
 }
 ```
 
-## Example of obtaining a token using an Authorization Code
+## Example of fetching a token using an Authorization Code
 
 AuthScreen.kt
 
@@ -118,8 +118,8 @@ import klsoft.kotlin.multiplatform.keycloakclient.KeycloakClient
 
 class AuthRepositoryImpl @Inject constructor(private val keycloakClient: KeycloakClient) : AuthRepository {
 
-    override suspend fun getTokenByAuthorizationCode(code: String): ApiResult<Tokens, ApiError> {  
-        val responseResult = keycloakClient.getTokenByAuthorizationCode(code)
+    override suspend fun fetchTokenByAuthorizationCode(code: String): ApiResult<Tokens, ApiError> {  
+        val responseResult = keycloakClient.fetchTokenByAuthorizationCode(code)
         if (responseResult.responseStatusCode == 200) {
             val data = responseResult.data
             if (data.containsKey(ACCESS_TOKEN) &&
@@ -151,7 +151,7 @@ sealed class ApiResult<out T, out E> {
 }
 ```
 
-## Example of obtaining a token using client credentials
+## Example of fetching a token using client credentials
 
 This method can only be used by confidential clients. Make sure that both the **Client authentication** and **Service accounts roles** options are ON in Keycloak
 
@@ -160,8 +160,8 @@ import klsoft.kotlin.multiplatform.keycloakclient.KeycloakClient
 
 class AuthRepositoryImpl @Inject constructor(private val keycloakClient: KeycloakClient) : AuthRepository {
 
-    override suspend fun getTokenByClientCredentials(): ApiResult<Tokens, ApiError> {  
-        val responseResult = keycloakClient.getTokenByClientCredentials()
+    override suspend fun fetchTokenByClientCredentials(): ApiResult<Tokens, ApiError> {  
+        val responseResult = keycloakClient.fetchTokenByClientCredentials()
         if (responseResult.responseStatusCode == 200) {
             val data = responseResult.data
             if (data.containsKey(ACCESS_TOKEN))) {
@@ -204,17 +204,17 @@ class AuthRepositoryImpl @Inject constructor(private val keycloakClient: Keycloa
 }
 ```
 
-## Example of obtaining a Requesting Party Token using a permission ticket
+## Example of fetching a Requesting Party Token using a permission ticket
 
 ```kotlin
 import klsoft.kotlin.multiplatform.keycloakclient.KeycloakClient
 
 class AuthRepositoryImpl @Inject constructor(private val keycloakClient: KeycloakClient) : AuthRepository {
 
-    override suspend fun getRequestingPartyTokenByPermissionTicket(
+    override suspend fun fetchRequestingPartyTokenByPermissionTicket(
         accessToken: String, 
         permissionTicket: String): ApiResult<Tokens, ApiError> {  
-        val responseResult = keycloakClient.getRequestingPartyTokenByPermissionTicket(
+        val responseResult = keycloakClient.fetchRequestingPartyTokenByPermissionTicket(
             accessToken, 
             permissionTicket)
             if (responseResult.responseStatusCode == 200) {
@@ -234,15 +234,15 @@ class AuthRepositoryImpl @Inject constructor(private val keycloakClient: Keycloa
 }
 ```
 
-## Example of obtaining a Requesting Party Token by the client ID
+## Example of fetching a Requesting Party Token by the client ID
 
 ```kotlin
 import klsoft.kotlin.multiplatform.keycloakclient.KeycloakClient
 
 class AuthRepositoryImpl @Inject constructor(private val keycloakClient: KeycloakClient) : AuthRepository {
 
-    override suspend fun getRequestingPartyTokenByClientId(accessToken: String): ApiResult<Tokens, ApiError> {  
-        val responseResult = keycloakClient.getRequestingPartyTokenByClientId(accessToken)
+    override suspend fun fetchRequestingPartyTokenByClientId(accessToken: String): ApiResult<Tokens, ApiError> {  
+        val responseResult = keycloakClient.fetchRequestingPartyTokenByClientId(accessToken)
         if (responseResult.responseStatusCode == 200) {
             val data = responseResult.data
             if (data.containsKey(ACCESS_TOKEN) &&
@@ -260,15 +260,15 @@ class AuthRepositoryImpl @Inject constructor(private val keycloakClient: Keycloa
 }
 ```
 
-## Example of obtaining a user information
+## Example of fetching a user information
 
 ```kotlin
 import klsoft.kotlin.multiplatform.keycloakclient.KeycloakClient
 
 class AuthRepositoryImpl @Inject constructor(private val keycloakClient: KeycloakClient) : AuthRepository {
 
-    override suspend fun getUserInfo(accessToken: String): ApiResult<UserInfo, ApiError> {  
-        val responseResult = keycloakClient.getUserInfo(accessToken)
+    override suspend fun fetchUserInfo(accessToken: String): ApiResult<UserInfo, ApiError> {  
+        val responseResult = keycloakClient.fetchUserInfo(accessToken)
         if (responseResult.responseStatusCode == 200) {
             val data = responseResult.data
         } else if (responseResult.responseStatusCode == 401) {

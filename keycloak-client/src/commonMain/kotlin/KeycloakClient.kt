@@ -151,7 +151,7 @@ class KeycloakClient private constructor(
     }
 
     /**
-     * Obtain a token using an Authorization Code.
+     * Fetch a token using an Authorization Code.
      *
      * @param code An Authorization Code
      *
@@ -159,7 +159,7 @@ class KeycloakClient private constructor(
      *
      * @throws IllegalArgumentException
      */
-    suspend fun getTokenByAuthorizationCode(code: String): ResponseResult {
+    suspend fun fetchTokenByAuthorizationCode(code: String): ResponseResult {
         if (code.isBlank()) {
             throw IllegalArgumentException("The argument 'code' must not be empty.")
         }
@@ -188,13 +188,13 @@ class KeycloakClient private constructor(
     }
 
     /**
-     * Obtain a token using client credentials. This method can only be used by confidential clients. Make sure that both the 'Client authentication' and 'Service accounts roles' options are ON in Keycloak.
+     * Fetch a token using client credentials. This method can only be used by confidential clients. Make sure that both the 'Client authentication' and 'Service accounts roles' options are ON in Keycloak.
      *
      * @return ResponseResult
      *
      * @throws IllegalArgumentException
      */
-    suspend fun getTokenByClientCredentials(): ResponseResult {
+    suspend fun fetchTokenByClientCredentials(): ResponseResult {
         if (clientSecret.isNullOrBlank()) {
             throw IllegalArgumentException("The argument 'clientSecret' must not be empty.")
         }
@@ -239,7 +239,7 @@ class KeycloakClient private constructor(
     }
 
     /**
-     * Get a Requesting Party Token by a permission ticket.
+     * Fetch a Requesting Party Token by a permission ticket.
      *
      * @param accessToken
      * @param permissionTicket
@@ -248,7 +248,7 @@ class KeycloakClient private constructor(
      *
      * @throws IllegalArgumentException
      */
-    suspend fun getRequestingPartyTokenByPermissionTicket(
+    suspend fun fetchRequestingPartyTokenByPermissionTicket(
         accessToken: String,
         permissionTicket: String
     ): ResponseResult {
@@ -283,7 +283,7 @@ class KeycloakClient private constructor(
      *
      * @throws IllegalArgumentException
      */
-    suspend fun getRequestingPartyTokenByClientId(accessToken: String): ResponseResult {
+    suspend fun fetchRequestingPartyTokenByClientId(accessToken: String): ResponseResult {
         if (accessToken.isBlank()) {
             throw IllegalArgumentException("The argument 'accessToken' must not be empty.")
         }
@@ -311,7 +311,7 @@ class KeycloakClient private constructor(
      *
      * @throws IllegalArgumentException
      */
-    suspend fun getUserInfo(accessToken: String): ResponseResult {
+    suspend fun fetchUserInfo(accessToken: String): ResponseResult {
         if (accessToken.isBlank()) {
             throw IllegalArgumentException("The argument 'accessToken' must not be empty.")
         }
