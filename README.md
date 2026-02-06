@@ -19,7 +19,7 @@ See also:
 
 ```kotlin
 [versions]  
-keycloakClient = "1.0.0"
+keycloakClient = "1.0.1"
 serializationJson = "1.10.0"
 
 [libraries]  
@@ -36,12 +36,12 @@ implementation(libs.kotlinx.serialization.json)
 import klsoft.kotlin.multiplatform.keycloakclient.KeycloakClient
 
 @Provides
-fun provideKeycloakClient(): KeycloakClient = KeycloakClient.Builder()  
+fun provideKeycloakClient(): KeycloakClient = KeycloakClient.Builder()
+    .setClientSecret("Keycloak client secret") //This is optional, but it is required when Keycloak 'Client authentication' is ON
     .build(  
         "http://mykeycloak.com/realms/myrealm",  
         "Keycloak client ID",  
-        "http://mysite.com/login", //Keycloak client redirect URI  
-        "Keycloak client secret"); //This is optional, but it is required when Keycloak 'Client authentication' is ON
+        "http://mysite.com/login"); //Keycloak client redirect URI
 ```
 
 ## Example of creating an Authorization Code flow URL

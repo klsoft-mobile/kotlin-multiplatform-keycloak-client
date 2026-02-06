@@ -26,10 +26,21 @@ class KeycloakClient private constructor(
     private val client = HttpClient()
 
     class Builder {
+        private var clientSecret: String? = null
         private var realmAuthorizationUrl: String? = null
         private var realmTokenUrl: String? = null
         private var realmLogoutUrl: String? = null
         private var realmUserInfoUrl: String? = null
+
+        /**
+         * @param clientSecret Keycloak client secret. This is optional, but it is required when Keycloak 'Client authentication' is ON.
+         *
+         * @return Builder
+         */
+        fun setClientSecret(clientSecret: String): Builder {
+            this.clientSecret = clientSecret
+            return this
+        }
 
         /**
          * @param realmAuthorizationUrl Realm authorization URL.
@@ -75,15 +86,13 @@ class KeycloakClient private constructor(
          * @param realmUrl Keycloak realm URL
          * @param clientId Keycloak client ID
          * @param redirectUri Keycloak client redirect URI
-         * @param clientSecret Keycloak client secret. This is optional, but it is required when Keycloak 'Client authentication' is ON
          *
          * @throws IllegalArgumentException
          */
         fun build(
             realmUrl: String,
             clientId: String,
-            redirectUri: String,
-            clientSecret: String? = null
+            redirectUri: String
         ): KeycloakClient {
             if (realmUrl.isBlank()) {
                 throw IllegalArgumentException("The argument 'realmUrl' must not be empty");
@@ -97,7 +106,7 @@ class KeycloakClient private constructor(
                 throw IllegalArgumentException("The argument 'redirectUri' must not be empty");
             }
 
-            val keycloakClient = KeycloakClient(realmUrl, clientId, redirectUri, clientSecret)
+            val keycloakClient = KeycloakClient(realmUrl, clientId, redirectUri, this.clientSecret)
             keycloakClient.realmAuthorizationUrl = this.realmAuthorizationUrl ?: keycloakClient.realmAuthorizationUrl
             keycloakClient.realmTokenUrl = this.realmTokenUrl ?: keycloakClient.realmTokenUrl
             keycloakClient.realmLogoutUrl = this.realmLogoutUrl ?: keycloakClient.realmLogoutUrl
